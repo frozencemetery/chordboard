@@ -21,7 +21,7 @@ if __name__ == "__main__":
     minfret = -1
     maxfret = 0
     for fret in frets:
-        if fret in ['x', 'X']:
+        if fret in ['x', 'X', '0']:
             continue
         fret = int(fret)
         if fret > maxfret:
@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
     position = args.position
     if position == 0:
-        position = max(min(minfret, maxfret - 5), 1)
+        position = minfret
         if position > 1: # automatic position adjustment
             frets = [sl(fret, position - 1) for fret in frets]
             maxfret -= position - 1
