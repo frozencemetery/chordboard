@@ -39,7 +39,7 @@ if __name__ == "__main__":
     pad = ' ' * len(str(position))
     print(f"{pad} {' '.join(fingers)}")
     print(f"{pad} -----------")
-    for i in range(1, max(maxfret, 4) + 1):
+    for i in range(1, max(maxfret, 5) + 1):
         row = []
         if i == 1 and position != 1:
             row.append(str(position))
