@@ -4,7 +4,7 @@
 import argparse
 
 try:
-    import png
+    import png # type: ignore
 except ModuleNotFoundError:
     png = None
 
