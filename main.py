@@ -84,14 +84,14 @@ def dump_png(path: str, rows: list[list[str]], scale: int) -> None:
     rowlen = len(arr[0])
     arr.insert(0, [255] * rowlen)
     arr.append([255] * rowlen)
-    for row in arr:
-        row.insert(0, 255)
+    for out_row in arr:
+        out_row.insert(0, 255)
 
     if scale != 1:
         bigger = []
-        for row in arr:
+        for out_row in arr:
             nr = []
-            for p in row:
+            for p in out_row:
                 for _ in range(scale):
                     nr.append(p)
             for _ in range(scale):
