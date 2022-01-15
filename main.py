@@ -3,6 +3,11 @@
 
 import argparse
 
+try:
+    import png
+except ModuleNotFoundError:
+    png = None
+
 def sl(fret: str, n: int) -> str:
     if fret in ['x', 'X', '0']:
         return fret
@@ -11,6 +16,7 @@ def sl(fret: str, n: int) -> str:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-p", "--position", type=int, default=0)
+    parser.add_argument("-o", "--output-png", type=str)
     parser.add_argument("frets")
     parser.add_argument("fingers")
     args = parser.parse_args()
@@ -36,9 +42,10 @@ if __name__ == "__main__":
             frets = [sl(fret, position - 1) for fret in frets]
             maxfret -= position - 1
 
+    rows = []
     pad = ' ' * len(str(position))
-    print(f"{pad} {' '.join(fingers)}")
-    print(f"{pad} -----------")
+    rows.append(list(f"{pad} {' '.join(fingers)}"))
+    rows.append(list(f"{pad} -----------"))
     for i in range(1, max(maxfret, 5) + 1):
         row = []
         if i == 1 and position != 1:
@@ -51,4 +58,14 @@ if __name__ == "__main__":
                 row.append(" *")
             else:
                 row.append(" |")
-        print(''.join(row))
+        rows.append(row)
+    print("\n".join([''.join(r) for r in rows]))
+
+    if not args.output_png:
+        exit(0)
+    if not png:
+        print("python3-pypng is required to output images")
+        exit(1)
+
+    arr = [[255, 0, 0, 255], [0, 255, 255, 0]]
+    png.from_array(arr, 'L').save(args.output_png)
