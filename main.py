@@ -129,9 +129,9 @@ if __name__ == "__main__":
                 row.append(" |")
             row = list(''.join(row))
         rows.append(row)
-    print("\n".join([''.join(r) for r in rows]))
 
     if not args.output_png:
+        print("\n".join([''.join(r) for r in rows]))
         exit(0)
     if not png:
         print("python3-pypng is required to output images")
