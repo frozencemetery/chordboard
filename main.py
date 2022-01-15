@@ -15,7 +15,7 @@ def sl(fret: str, n: int) -> str:
 
 # Fonts are 6 wide and 8 tall.
 def load_font() -> dict[str, list[list[int]]]:
-    font = {}
+    font: dict[str, list[list[int]]] = {}
     curchar = None
     with open("font", "r") as f:
         while line := f.readline():
@@ -28,6 +28,7 @@ def load_font() -> dict[str, list[list[int]]]:
                 font[curchar] = []
                 continue
             row = [0 if c != ' ' else 255 for c in list(line)]
+            assert(curchar)
             font[curchar].append(row)
 
     for k in font.keys():
