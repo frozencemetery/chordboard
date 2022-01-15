@@ -42,6 +42,46 @@ def load_font() -> dict[str, list[list[int]]]:
 
     return font
 
+def dump_png(path: str, rows: list[list[str]]) -> None:
+    # Fonts are 6x8, though most characters actually define as 5x7.  By
+    # implicitly anchoring them to the top left, we can slam them together
+    # without worrying about spacing.
+    font = load_font()
+    arr = []
+    for row in rows:
+        if '-' in row:
+            continue
+
+        for i in range(8):
+            line = []
+            seen_space = False
+            seen_nonspace = False
+            leftside = True
+            for j, c in enumerate(row):
+                if not seen_space and c == ' ':
+                    seen_space = True
+                    continue
+                if c == ' ' and seen_nonspace:
+                    continue
+                if c != ' ':
+                    seen_nonspace = True
+                if j == len(row) - 1:
+                    if c == '|':
+                        c = 'c'
+                    elif c == '*':
+                        c = 'r'
+                if leftside and c == '|':
+                    leftside = False
+                    c = 'o'
+                elif leftside and c == '*':
+                    leftside = False
+                    c = 'l'
+
+                line += font[c][i]
+            arr.append(line)
+
+    png.from_array(arr, 'L').save(args.output_png)
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-p", "--position", type=int, default=0)
@@ -97,28 +137,4 @@ if __name__ == "__main__":
         print("python3-pypng is required to output images")
         exit(1)
 
-    # Fonts are 6x8, though most characters actually define as 5x7.  By
-    # implicitly anchoring them to the top left, we can slam them together
-    # without worrying about spacing.
-    font = load_font()
-    arr = []
-    for row in rows:
-        if '-' in row:
-            continue
-        for i in range(8):
-            line = []
-            sfs = False
-            hns = False
-            for c in row:
-                if not sfs and c == ' ':
-                    sfs = True
-                    continue
-                if c == ' ' and hns:
-                    continue
-                if c != ' ':
-                    hns = True
-
-                line += font[c][i]
-            arr.append(line)
-
-    png.from_array(arr, 'L').save(args.output_png)
+    dump_png(args.output_png, rows)
