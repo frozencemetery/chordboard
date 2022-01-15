@@ -28,12 +28,6 @@ def load_font() -> dict[str, list[list[int]]]:
                 font[curchar] = []
                 continue
             row = [0 if c != ' ' else 255 for c in list(line)]
-            if len(row) > 6:
-                print(f"Problem in character {curchar}")
-                print(f"row: {row}")
-                print(f"line: {line}d")
-                print(font[curchar])
-                exit(1)
             font[curchar].append(row)
 
     for k in font.keys():
@@ -92,6 +86,7 @@ if __name__ == "__main__":
                 row.append(" *")
             else:
                 row.append(" |")
+            row = list(''.join(row))
         rows.append(row)
     print("\n".join([''.join(r) for r in rows]))
 
@@ -101,5 +96,28 @@ if __name__ == "__main__":
         print("python3-pypng is required to output images")
         exit(1)
 
-    arr = [[255, 0, 0, 255], [0, 255, 255, 0]]
+    # Fonts are 6x8, though most characters actually define as 5x7.  By
+    # implicitly anchoring them to the top left, we can slam them together
+    # without worrying about spacing.
+    font = load_font()
+    arr = []
+    for row in rows:
+        if '-' in row:
+            continue
+        for i in range(8):
+            line = []
+            sfs = False
+            hns = False
+            for c in row:
+                if not sfs and c == ' ':
+                    sfs = True
+                    continue
+                if c == ' ' and hns:
+                    continue
+                if c != ' ':
+                    hns = True
+
+                line += font[c][i]
+            arr.append(line)
+
     png.from_array(arr, 'L').save(args.output_png)
