@@ -8,6 +8,9 @@ try:
 except ModuleNotFoundError:
     png = None
 
+BLACK = 0
+WHITE = 255
+
 def sl(fret: str, n: int) -> str:
     if fret in ['x', 'X', '0']:
         return fret
@@ -27,7 +30,7 @@ def load_font() -> dict[str, list[list[int]]]:
                 curchar = line[0]
                 font[curchar] = []
                 continue
-            row = [0 if c != ' ' else 255 for c in list(line)]
+            row = [BLACK if c != ' ' else WHITE for c in list(line)]
             assert(curchar)
             font[curchar].append(row)
 
@@ -35,9 +38,9 @@ def load_font() -> dict[str, list[list[int]]]:
         glyph = font[k]
         for i in range(len(glyph)):
             while len(glyph[i]) < 6:
-                glyph[i].append(255)
+                glyph[i].append(WHITE)
         while len(glyph) < 8:
-            glyph.append([255] * 6)
+            glyph.append([WHITE] * 6)
         font[k] = glyph
 
     return font
@@ -82,10 +85,10 @@ def dump_png(path: str, rows: list[list[str]], scale: int) -> None:
 
     # padding
     rowlen = len(arr[0])
-    arr.insert(0, [255] * rowlen)
-    arr.append([255] * rowlen)
+    arr.insert(0, [WHITE] * rowlen)
+    arr.append([WHITE] * rowlen)
     for out_row in arr:
-        out_row.insert(0, 255)
+        out_row.insert(0, WHITE)
 
     if scale != 1:
         bigger = []
