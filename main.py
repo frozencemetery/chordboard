@@ -128,10 +128,11 @@ if __name__ == "__main__":
     for fret in frets:
         if fret in ['x', 'X', '0']:
             continue
+
         fret = int(fret)
         if fret > maxfret:
             maxfret = fret
-        elif minfret == -1 or fret < minfret:
+        if minfret == -1 or fret < minfret:
             minfret = fret
 
     position = args.position
