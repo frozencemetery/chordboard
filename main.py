@@ -13,6 +13,40 @@ def sl(fret: str, n: int) -> str:
         return fret
     return str(int(fret) - n)
 
+# Fonts are 6 wide and 8 tall.
+def load_font() -> dict[str, list[list[int]]]:
+    font = {}
+    curchar = None
+    with open("font", "r") as f:
+        while line := f.readline():
+            if line[-1] == '\n':
+                line = line[:-1]
+            if line == '':
+                continue
+            if ":" in line:
+                curchar = line[0]
+                font[curchar] = []
+                continue
+            row = [0 if c != ' ' else 255 for c in list(line)]
+            if len(row) > 6:
+                print(f"Problem in character {curchar}")
+                print(f"row: {row}")
+                print(f"line: {line}d")
+                print(font[curchar])
+                exit(1)
+            font[curchar].append(row)
+
+    for k in font.keys():
+        glyph = font[k]
+        for i in range(len(glyph)):
+            while len(glyph[i]) < 6:
+                glyph[i].append(255)
+        while len(glyph) < 8:
+            glyph.append([255] * 6)
+        font[k] = glyph
+
+    return font
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-p", "--position", type=int, default=0)
