@@ -80,6 +80,12 @@ def dump_png(path: str, rows: list[list[str]]) -> None:
                 line += font[c][i]
             arr.append(line)
 
+    # padding
+    rowlen = len(arr[0])
+    arr.insert(0, [255] * rowlen)
+    arr.append([255] * rowlen)
+    for row in arr:
+        row.insert(0, 255)
     png.from_array(arr, 'L').save(args.output_png)
 
 if __name__ == "__main__":
