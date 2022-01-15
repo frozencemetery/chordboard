@@ -107,7 +107,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-p", "--position", type=int, default=0)
     parser.add_argument("-o", "--output-png", type=str)
-    parser.add_argument("-x", "--scale-by", type=int, default=1)
+    parser.add_argument("-x", "--scale-by", type=int)
     parser.add_argument("frets")
     parser.add_argument("fingers")
     args = parser.parse_args()
