@@ -2,6 +2,19 @@
 
 Simple tool to create guitar fretboard diagrams.
 
+It can output images.  For instance:
+
+```
+$ # Awful chord to show off notation, image scaled up 3x
+$ ./main.py 7,8,10,9,11,X T,1,3,2,4,X -o demo.png -x 3
+```
+
+produces the demo.png in this repo:
+
+![the above chord](demo.png "the above chord")
+
+Or it can output to the console:
+
 ```
 $ # C major
 $ ./main.py X,3,2,0,1,0 X,3,2,0,1,0
