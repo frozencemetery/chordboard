@@ -42,7 +42,7 @@ def load_font() -> dict[str, list[list[int]]]:
 
     return font
 
-def dump_png(path: str, rows: list[list[str]]) -> None:
+def dump_png(path: str, rows: list[list[str]], scale: int) -> None:
     # Fonts are 6x8, though most characters actually define as 5x7.  By
     # implicitly anchoring them to the top left, we can slam them together
     # without worrying about spacing.
@@ -86,15 +86,36 @@ def dump_png(path: str, rows: list[list[str]]) -> None:
     arr.append([255] * rowlen)
     for row in arr:
         row.insert(0, 255)
+
+    if scale != 1:
+        bigger = []
+        for row in arr:
+            nr = []
+            for p in row:
+                for _ in range(scale):
+                    nr.append(p)
+            for _ in range(scale):
+                bigger.append(nr)
+        arr = bigger
+
     png.from_array(arr, 'L').save(args.output_png)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-p", "--position", type=int, default=0)
     parser.add_argument("-o", "--output-png", type=str)
+    parser.add_argument("-x", "--scale-by", type=int, default=1)
     parser.add_argument("frets")
     parser.add_argument("fingers")
     args = parser.parse_args()
+
+    if args.output_png and not png:
+        print("python3-pypng is required to output images")
+        exit(1)
+    if args.scale_by and not args.output_png:
+        print("Scale is not usable unless outputting an image")
+        parser.print_help()
+        exit(1)
 
     fingers = args.fingers.split(",")
     frets = args.frets.split(",")
@@ -139,8 +160,5 @@ if __name__ == "__main__":
     if not args.output_png:
         print("\n".join([''.join(r) for r in rows]))
         exit(0)
-    if not png:
-        print("python3-pypng is required to output images")
-        exit(1)
 
-    dump_png(args.output_png, rows)
+    dump_png(args.output_png, rows, args.scale_by)
