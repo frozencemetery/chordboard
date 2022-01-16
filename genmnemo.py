@@ -19,7 +19,7 @@ def clean_name(s: str) -> str:
             cs.append(c)
     return ''.join(cs)
 
-chords = {}
+chords: dict[str, tuple[str, str]] = {}
 print("Reading space-separated values from stdin...")
 while line := sys.stdin.readline():
     if line.endswith("\n"):
@@ -96,8 +96,8 @@ except FileNotFoundError:
 
 subprocess.check_call(["zip", "chords.cards"] + files)
 
-for f in files:
+for fname in files:
     try:
-        os.unlink(f)
+        os.unlink(fname)
     except FileNotFoundError:
         pass
