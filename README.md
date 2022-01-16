@@ -1,6 +1,7 @@
 # chordboard
 
-Simple tool to create guitar fretboard diagrams.
+Simple tool to create guitar fretboard diagrams, with optional ability to
+generate a flashcard deck.
 
 It can output images.  For instance:
 
@@ -48,8 +49,10 @@ $ ./main.py -p5 0,3,2,3,4,0 0,2,1,3,4,0
 $ 
 ```
 
-There are many tools to generate images that look almost like this, but all
-of them get it slightly wrong (and are closed source, so I can't fix them).
+There are many tools that *almost* generate these standard images, but all
+that I've found aren't quite right - often they don't have fingerings at the
+top, or write note names below (unhelpful for shape memorization), or any
+number of other things.
 
 I hope your music goes well!
 
@@ -58,6 +61,18 @@ I hope your music goes well!
 Tool that generates a
 [mnemosnye](https://github.com/mnemosyne-proj/mnemosyne)-compatibile file of
 cards for import.  Creates chords.cards, which can be imported into mnemosyne.
+
+Chords are given as a space-separated value on stdin.  So one could do:
+
+```
+$ cat > chords.ssv <<EOF
+Am X,0,2,2,1,0 X,0,2,3,1,0
+Em 0,2,2,0,0,0 X,2,3,0,0,0
+EOF
+$ cat chords.ssv | ./genmnemo.py
+```
+
+which will produce chords.cards, suitable for mnemosnye import.
 
 Aside: why no anki support?  The original reason is that I'd previously used
 mnemosnye, and the storage format wasn't too hard to figure out.  That said, I

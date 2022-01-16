@@ -2,10 +2,24 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 
 import os
+import sys
 import subprocess
 import time
 
-chords = [("C", "X,3,2,0,1,0", "X,3,2,0,1,0")]
+chords = []
+print("Reading space-separated values from stdin...")
+while line := sys.stdin.readline():
+    if line.endswith("\n"):
+        line = line[:-1]
+    if line == '':
+        continue
+    name, frets, fingers = line.split(" ")
+    chords.append((name, frets, fingers))
+
+if len(chords) == 0:
+    print("Chords are a space-separated value, read from stdin")
+    print(r'  e.g., printf "Am X,0,2,2,1,0 X,0,2,3,1,0\n" | ./genmnemo.py')
+    exit(1)
 
 # A mnemosyne v2 file is a ZIP container consisting of:
 #  - cards.xml, which is both complicated and important
@@ -55,7 +69,8 @@ flat_data = "\n".join(data)
 with open("cards.xml", "w") as f:
     f.write(f'<openSM2sync number_of_entries="{len(data) + 1}">'
             f'<log type="10" o_id="gchords"><name>guitar chords</name></log>'
-            f'\n{flat_data}\n</openSM2sync>\n')
+            f'\n{flat_data}\n'
+            f'</openSM2sync>\n')
 
 os.unlink("chords.cards")
 subprocess.check_call(["zip", "chords.cards"] + files)
