@@ -55,4 +55,17 @@ I hope your music goes well!
 
 ## genmnemo.py
 
-Tool that generates a mnemosnye-compatibile file of cards for import.
+Tool that generates a
+[mnemosnye](https://github.com/mnemosyne-proj/mnemosyne)-compatibile file of
+cards for import.  Creates chords.cards, which can be imported into mnemosyne.
+
+Aside: why no anki support?  The original reason is that I'd previously used
+mnemosnye, and the storage format wasn't too hard to figure out.  That said, I
+did look into adding it, but ran into two problems.  First, anki started using
+rust, bazel, and nodejs, which means packaging it suddenly became really
+complicated and it lags far behind upstream (see
+[Debian](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=958853),
+[Fedora](https://bugzilla.redhat.com/show_bug.cgi?id=1815782)).  Second, as of
+this writing, the ankiweb server has been changed and will no longer sync with
+distro clients.  This means that for my purposes, it's a dead project, so I
+don't plan to add support myself.

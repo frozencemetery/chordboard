@@ -10,6 +10,11 @@ chords = [("C", "X,3,2,0,1,0", "X,3,2,0,1,0")]
 #  - cards.xml, which is both complicated and important
 #  - METADATA, a colon-delimited set of magic keys
 #  - any linked media files
+#
+# To misquote @dril:
+#
+#    who the fuck is scraeming "STOP BLACKBOXING PROGRAMS YOU HAVE SOURCE FOR"
+#    at my house. show yourself, coward. i will never stop blackboxing
 files = ["cards.xml", "METADATA"]
 
 with open("METADATA", "w") as f:
