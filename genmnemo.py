@@ -6,7 +6,7 @@ import sys
 import subprocess
 import time
 
-chords = []
+chords = {}
 print("Reading space-separated values from stdin...")
 while line := sys.stdin.readline():
     if line.endswith("\n"):
@@ -14,9 +14,13 @@ while line := sys.stdin.readline():
     if line == '':
         continue
     name, frets, fingers = line.split(" ")
-    chords.append((name, frets, fingers))
+    if name in chords.keys():
+        print(f"Duplicate chord: {name}")
+        exit(1)
 
-if len(chords) == 0:
+    chords[name] = frets, fingers
+
+if len(chords.keys()) == 0:
     print("Chords are a space-separated value, read from stdin")
     print(r'  e.g., printf "Am X,0,2,2,1,0 X,0,2,3,1,0\n" | ./genmnemo.py')
     exit(1)
@@ -46,7 +50,7 @@ notes:
 imgs = []
 cards = []
 links = []
-for cname, frets, fingers in chords:
+for cname, (frets, fingers) in chords.items():
     dest = f"{cname}.png"
     files.append(dest)
     subprocess.check_call(["./main.py", frets, fingers, "-o", dest, "-x3"])
