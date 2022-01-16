@@ -81,6 +81,10 @@ def dump_png(path: str, rows: list[list[str]], scale: int) -> None:
                 elif leftside and c == '*':
                     leftside = False
                     c = 'l'
+                if c == 'x':
+                    c = 'X'
+                elif c == 't':
+                    c = 'T'
 
                 line += font[c][i]
             arr.append(line)
