@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # SPDX-License-Identifier: AGPL-3.0-only
 
+import os
 import subprocess
 import time
 
@@ -56,5 +57,8 @@ with open("cards.xml", "w") as f:
             f'<log type="10" o_id="gchords"><name>guitar chords</name></log>'
             f'\n{flat_data}\n</openSM2sync>\n')
 
+os.unlink("chords.cards")
 subprocess.check_call(["zip", "chords.cards"] + files)
 
+for f in files:
+    os.unlink(f)
