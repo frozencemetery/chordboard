@@ -143,7 +143,7 @@ if __name__ == "__main__":
 
     position = args.position
     if position == 0:
-        position = minfret
+        position = minfret if maxfret > 5 else 1
         if position > 1: # automatic position adjustment
             frets = [sl(fret, position - 1) for fret in frets]
             maxfret -= position - 1
