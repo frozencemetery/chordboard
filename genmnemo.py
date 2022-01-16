@@ -76,8 +76,15 @@ with open("cards.xml", "w") as f:
             f'\n{flat_data}\n'
             f'</openSM2sync>\n')
 
-os.unlink("chords.cards")
+try:
+    os.unlink("chords.cards")
+except FileNotFoundError:
+    pass
+
 subprocess.check_call(["zip", "chords.cards"] + files)
 
 for f in files:
-    os.unlink(f)
+    try:
+        os.unlink(f)
+    except FileNotFoundError:
+        pass
