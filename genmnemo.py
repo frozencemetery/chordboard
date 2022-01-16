@@ -12,7 +12,7 @@ def clean_name(s: str) -> str:
         if c == '♭':
             cs.append('b')
         elif c == '♯':
-            cs.append('#')
+            cs.append('s')
         elif c == '/':
             cs.append('_')
         else:
