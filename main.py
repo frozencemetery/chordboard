@@ -26,6 +26,8 @@ def load_font() -> dict[str, list[list[int]]]:
                 line = line[:-1]
             if line == '':
                 continue
+            if line.startswith("SPDX"): # font license
+                continue
             if ":" in line:
                 curchar = line[0]
                 font[curchar] = []
