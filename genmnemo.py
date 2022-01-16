@@ -6,6 +6,19 @@ import sys
 import subprocess
 import time
 
+def clean_name(s: str) -> str:
+    cs = []
+    for c in list(s):
+        if c == '♭':
+            cs.append('b')
+        elif c == '♯':
+            cs.append('#')
+        elif c == '/':
+            cs.append('_')
+        else:
+            cs.append(c)
+    return ''.join(cs)
+
 chords = {}
 print("Reading space-separated values from stdin...")
 while line := sys.stdin.readline():
@@ -51,7 +64,7 @@ imgs = []
 cards = []
 links = []
 for cname, (frets, fingers) in chords.items():
-    dest = f"{cname.replace('/', '_')}.png"
+    dest = f"{clean_name(cname)}.png"
     files.append(dest)
     subprocess.check_call(["./main.py", frets, fingers, "-o", dest, "-x3"])
     imgs.append(f'<log type="13"><fname>{dest}</fname></log>')
