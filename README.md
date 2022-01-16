@@ -52,3 +52,7 @@ There are many tools to generate images that look almost like this, but all
 of them get it slightly wrong (and are closed source, so I can't fix them).
 
 I hope your music goes well!
+
+## genmnemo.py
+
+Tool that generates a mnemosnye-compatibile file of cards for import.
