@@ -51,7 +51,7 @@ imgs = []
 cards = []
 links = []
 for cname, (frets, fingers) in chords.items():
-    dest = f"{cname}.png"
+    dest = f"{cname.replace('/', '_')}.png"
     files.append(dest)
     subprocess.check_call(["./main.py", frets, fingers, "-o", dest, "-x3"])
     imgs.append(f'<log type="13"><fname>{dest}</fname></log>')
